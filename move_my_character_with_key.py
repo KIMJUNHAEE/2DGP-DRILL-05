@@ -1,11 +1,11 @@
 from pico2d import *
 
-open_canvas(1280, 1024)
+open_canvas(1280, 1020)
 
 character = load_image('animation_sheet.png')
 background = load_image('TUK_GROUND.png')
 
-KPU_WIDTH, KPU_HEIGHT = 1280, 1024
+KPU_WIDTH, KPU_HEIGHT = 1280, 1020
 running = True
 
 x, y = KPU_WIDTH // 2, KPU_HEIGHT // 2
@@ -67,15 +67,18 @@ def handle_events():
                 Act = 1
             elif event.key == SDLK_DOWN:
                 dir += 2
+                Act = 2
     pass
 
 
 while running:
     handle_events()
-    if (dir == 1 or dir == -1) and (x + 50 <= KPU_WIDTH or x-50 >= 0):
-        x += dir * 10
-    elif (dir == 2 or dir == -2) and (y + 50 <= KPU_HEIGHT or y-50 >= 0):
-        y += dir * 5
+    if dir == 1 or dir == -1:
+        if x + 50 < KPU_WIDTH and x-50 > 0:
+            x += dir * 10
+    elif dir == 2 or dir == -2:
+        if y + 50 < KPU_HEIGHT and y-50 > 0:
+            y += dir * 5
 
     if Act == 1:
         Action_frame = sprite_frame[0]
