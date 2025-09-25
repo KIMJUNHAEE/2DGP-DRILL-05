@@ -33,8 +33,14 @@ def play_Action(Action):
     pass
 
 
-while running:
+def handle_events():
 
+
+    pass
+
+
+while running:
+    handle_events()
     for Action in sprite_frame:
         play_Action(Action)
 
