@@ -11,8 +11,12 @@ running = True
 x, y = KPU_WIDTH // 2, KPU_HEIGHT // 2
 frame = 0
 dir = 0
-UpDown = False
 Act = 1
+
+move_left = False
+move_right = False
+move_up = False
+move_down = False
 
 # Act 1 : right idle, Act 2 : left idle Act3 : right run, Act 4 : left run
 sprite_frame = (
@@ -34,7 +38,7 @@ def play_Action(Action):
 
 
 def handle_events():
-    global running, dir, x, y, Act, UpDown
+    global running, dir, x, y, move_up, move_down, move_left, move_right, Act
 
     events = get_events()
     for event in events:
@@ -42,47 +46,58 @@ def handle_events():
             running = False
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
-                dir += 1
-                Act = 3
+                move_right = True
             elif event.key == SDLK_LEFT:
-                dir -= 1
-                Act = 4
+                move_left = True
             elif event.key == SDLK_UP:
-                dir += 2
-                Act = 3
+                move_up = True
             elif event.key == SDLK_DOWN:
-                dir -= 2
-                Act = 4
+                move_down = True
             elif event.key == SDLK_ESCAPE:
                 running = False
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
-                dir -= 1
+                move_right = False
                 Act = 1
             elif event.key == SDLK_LEFT:
-                dir += 1
+                move_left = False
                 Act = 2
             elif event.key == SDLK_UP:
-                dir -= 2
+                move_up = False
                 Act = 1
             elif event.key == SDLK_DOWN:
-                dir += 2
+                move_down = False
                 Act = 2
+
     pass
 
 
 while running:
     handle_events()
-    if dir == 1 or dir == -1:
+
+    if move_right:
+        dir = 1
+        Act = 3
+    elif move_left:
+        dir = -1
+        Act = 4
+    elif move_up:
+        dir = 1
+        Act = 3
+    elif move_down:
+        dir = -1
+        Act = 4
+
+    if move_right or move_left:
         if x + 50 < KPU_WIDTH and x-50 > 0:
             x += dir * 10
         elif x + 50 >= KPU_WIDTH:
             x = KPU_WIDTH - 60
         elif x - 50 <= 0:
             x = 60
-    elif dir == 2 or dir == -2:
+    elif move_up or move_down:
         if y + 50 < KPU_HEIGHT and y-50 > 0:
-            y += dir * 5
+            y += dir * 10
         elif y + 50 >= KPU_HEIGHT:
             y = KPU_HEIGHT - 60
         elif y - 50 <= 0:
