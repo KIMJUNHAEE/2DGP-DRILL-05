@@ -1,5 +1,7 @@
 from pico2d import *
 
+#character = load_image('animation_sheet.png')
+#background = load_image('TUK_GROUND.png')
 
 KPU_WIDTH, KPU_HEIGHT = 1280, 1024
 running = True
@@ -16,10 +18,17 @@ sprite_frame = (
     ((0,0,64,64),(64,0,64,64),(128,0,64,64),(192,0,64,64),(256,0,64,64),(320,0,64,64),(384,0,64,64),(448,0,64,64))
 )
 
+def play_Action(Action):
+    print('test')
+
+
+    pass
 
 
 while True:
+    for Action in sprite_frame:
 
+        play_Action(Action)
 
 
     pass
