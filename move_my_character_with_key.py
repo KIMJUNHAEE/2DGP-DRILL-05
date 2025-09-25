@@ -11,7 +11,8 @@ running = True
 x, y = KPU_WIDTH // 2, KPU_HEIGHT // 2
 frame = 0
 dir = 0
-check = False
+UpDown = False
+Act = 1
 
 # Act 1 : right idle, Act 2 : left idle Act3 : right run, Act 4 : left run
 sprite_frame = (
@@ -28,13 +29,12 @@ def play_Action(Action):
     character.clip_draw(Action[frame][0], Action[frame][1], Action[frame][2], Action[frame][3], x, y, Action[frame][2], Action[frame][3])
     update_canvas()
     frame = (frame + 1) % len(Action)
-    delay(0.01)
-
+    delay(0.02)
     pass
 
 
 def handle_events():
-    global running, dir, x, y, check
+    global running, dir, x, y, Act, UpDown
 
     events = get_events()
     for event in events:
@@ -43,43 +43,50 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 dir += 1
-                check = True
+                Act = 3
             elif event.key == SDLK_LEFT:
                 dir -= 1
-                check = True
+                Act = 4
             elif event.key == SDLK_UP:
-                dir += 1
-                check = False
+                dir += 2
+                Act = 3
             elif event.key == SDLK_DOWN:
-                dir -= 1
-                check = False
+                dir -= 2
+                Act = 4
             elif event.key == SDLK_ESCAPE:
                 running = False
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 dir -= 1
-                check = True
+                Act = 1
             elif event.key == SDLK_LEFT:
                 dir += 1
-                check = True
+                Act = 2
             elif event.key == SDLK_UP:
-                dir -= 1
-                check = False
+                dir -= 2
+                Act = 1
             elif event.key == SDLK_DOWN:
-                dir += 1
-                check = False
+                dir += 2
     pass
 
 
 while running:
     handle_events()
-    if check == True:
+    if (dir == 1 or dir == -1) and (x + 50 <= KPU_WIDTH or x-50 >= 0):
         x += dir * 10
-    elif check == False:
-        y += dir * 10
+    elif (dir == 2 or dir == -2) and (y + 50 <= KPU_HEIGHT or y-50 >= 0):
+        y += dir * 5
 
-    for Action in sprite_frame:
-        play_Action(Action)
+    if Act == 1:
+        Action_frame = sprite_frame[0]
+    elif Act == 2:
+        Action_frame = sprite_frame[1]
+    elif Act == 3:
+        Action_frame = sprite_frame[2]
+    elif Act == 4:
+        Action_frame = sprite_frame[3]
+
+    play_Action(Action_frame)
 
 
     pass
