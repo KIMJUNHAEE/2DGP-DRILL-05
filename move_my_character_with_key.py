@@ -25,7 +25,7 @@ def play_Action(Action):
     global running, x, y, frame, dir, speed
     clear_canvas()
     background.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
-    character.clip_draw(Action[frame][0], Action[frame][1], Action[frame][2], Action[frame][3], x, y, 100, 100)
+    character.clip_draw(Action[frame][0], Action[frame][1], Action[frame][2], Action[frame][3], x, y, Action[frame][4], Action[frame][4])
     update_canvas()
     frame = (frame + 1) % len(Action)
     delay(0.1)
@@ -33,7 +33,7 @@ def play_Action(Action):
     pass
 
 
-while True:
+while running:
 
     for Action in sprite_frame:
         play_Action(Action)
