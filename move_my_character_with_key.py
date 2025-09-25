@@ -76,9 +76,17 @@ while running:
     if dir == 1 or dir == -1:
         if x + 50 < KPU_WIDTH and x-50 > 0:
             x += dir * 10
+        elif x + 50 >= KPU_WIDTH:
+            x = KPU_WIDTH - 60
+        elif x - 50 <= 0:
+            x = 60
     elif dir == 2 or dir == -2:
         if y + 50 < KPU_HEIGHT and y-50 > 0:
             y += dir * 5
+        elif y + 50 >= KPU_HEIGHT:
+            y = KPU_HEIGHT - 60
+        elif y - 50 <= 0:
+            y = 60
 
     if Act == 1:
         Action_frame = sprite_frame[0]
