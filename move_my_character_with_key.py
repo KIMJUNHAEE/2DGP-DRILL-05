@@ -11,7 +11,7 @@ running = True
 x, y = KPU_WIDTH // 2, KPU_HEIGHT // 2
 frame = 0
 dir = 0
-speed = 0
+check = False
 
 # Act 1 : right idle, Act 2 : left idle Act3 : right run, Act 4 : left run
 sprite_frame = (
@@ -22,25 +22,62 @@ sprite_frame = (
 )
 
 def play_Action(Action):
-    global running, x, y, frame, dir, speed
+    global running, x, y, frame, dir
     clear_canvas()
     background.draw(KPU_WIDTH // 2, KPU_HEIGHT // 2)
-    character.clip_draw(Action[frame][0], Action[frame][1], Action[frame][2], Action[frame][3], x, y, Action[frame][4], Action[frame][4])
+    character.clip_draw(Action[frame][0], Action[frame][1], Action[frame][2], Action[frame][3], x, y, Action[frame][2], Action[frame][3])
     update_canvas()
     frame = (frame + 1) % len(Action)
-    delay(0.1)
+    delay(0.01)
 
     pass
 
 
 def handle_events():
+    global running, dir, x, y, check
 
-
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN:
+            if event.key == SDLK_RIGHT:
+                dir += 1
+                check = True
+            elif event.key == SDLK_LEFT:
+                dir -= 1
+                check = True
+            elif event.key == SDLK_UP:
+                dir += 1
+                check = False
+            elif event.key == SDLK_DOWN:
+                dir -= 1
+                check = False
+            elif event.key == SDLK_ESCAPE:
+                running = False
+        elif event.type == SDL_KEYUP:
+            if event.key == SDLK_RIGHT:
+                dir -= 1
+                check = True
+            elif event.key == SDLK_LEFT:
+                dir += 1
+                check = True
+            elif event.key == SDLK_UP:
+                dir -= 1
+                check = False
+            elif event.key == SDLK_DOWN:
+                dir += 1
+                check = False
     pass
 
 
 while running:
     handle_events()
+    if check == True:
+        x += dir * 10
+    elif check == False:
+        y += dir * 10
+
     for Action in sprite_frame:
         play_Action(Action)
 
