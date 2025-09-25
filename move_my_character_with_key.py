@@ -38,7 +38,7 @@ def play_Action(Action):
 
 
 def handle_events():
-    global running, dir, x, y, move_up, move_down, move_left, move_right, Act
+    global running, move_up, move_down, move_left, move_right, Act
 
     events = get_events()
     for event in events:
